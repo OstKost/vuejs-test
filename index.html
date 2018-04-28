@@ -11,8 +11,52 @@
 <body>
 
     <div id="app">
-        <input type="text" v-on:input="changeName">
-        <h1>Hello {{ name }}JS!</h1>
+
+        <section>
+            <h2>
+                {{counter}} - {{counter2}}
+            </h2>
+            <h4>
+                {{result()}}
+            </h4>
+            <h4>
+                {{computedResult}}
+            </h4>
+            <button @click="addCount">Add</button>
+            <button @click="counter2++">Add 2</button>
+            <button @click="subCount">Sub</button>
+        </section>
+
+        <section>
+            <h1>{{title}}</h1>
+            <input type="text" v-model.lazy="title">
+        </section>
+
+        <section>
+            <ul>
+                <li v-for="(person, index) of people">
+                    {{index+1}}) {{person.name}} -
+                    <b>{{person.age}}</b>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <ol>
+                <li v-for="num of 10">
+                    {{num}}
+                </li>
+            </ol>
+        </section>
+
+        <section>
+            <ul>
+                <li v-for="(value, key, index) of person">
+                    <em>{{index+1}}</em> - {{key}} - {{value}}
+                </li>
+            </ul>
+        </section>
+
     </div>
 
     <!-- версия для разработки, включает отображение полезных предупреждений в консоли -->
@@ -22,11 +66,43 @@
         new Vue({
             el: '#app',
             data: {
-                name: 'VueJS'
+                counter: 0,
+                counter2: 0,
+                condition: '',
+                title: 'TITLE!!!',
+                people: [
+                    { name: 'Vlad', age: 30 },
+                    { name: 'Vlafd', age: 20 },
+                    { name: 'fdsfdgdd', age: 130 },
+                    { name: 'Vla342d', age: 350 },
+                ],
+                person: {
+                    name: 'Max',
+                    age: 50,
+                    job: 'Work1'
+                }
             },
             methods: {
-                changeName: function (event) {
-                    this.name = event.target.value
+                addCount: function () {
+                    this.counter++;
+                },
+                subCount: function () {
+                    this.counter--;
+                },
+                result: function () {
+                    console.log('M result!');
+                    return this.counter > 3 ? ' > 3' : '< 3';
+                }
+            },
+            computed: {
+                computedResult: function (params) {
+                    console.log('C result!');
+                    return this.counter > 3 ? ' > 3' : '< 3';
+                }
+            },
+            watch: {
+                counter: function () {
+                    console.log('watch ' + this.counter);
                 }
             }
         })
