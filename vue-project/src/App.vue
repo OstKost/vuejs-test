@@ -23,13 +23,13 @@
 export default {
   name: 'app',
   data () {
-    return {
+    return {            
       msg: 'Welcome to Your Vue.js App'
     }
   }
 }
 </script>
-
+ 
 <style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
