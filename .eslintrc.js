@@ -7,21 +7,28 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    browser: true,
+    browser: true
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
-  extends: [
-    'standard'    
-  ],
+  extends: ['standard'],
   // required to lint *.vue files
-  plugins: [
-    'html',    
-  ],
+  plugins: ['html'],
   // add your custom rules here
   rules: {
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    // my rules
+    'no-tabs': 0,
+    indent: ['off', 'tab'],
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'ignore',
+        named: 'ignore',
+        asyncArrow: 'always'
+      }
+    ]
   }
 }
