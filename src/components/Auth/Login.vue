@@ -24,31 +24,34 @@
 
 <script>
 export default {
-    data () {
-        return {
-            email: '',
-            password: '',
-            valid: false,
-            emailRules: [
-                v => !!v || 'E-mail is required',
-                v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-            ],
-            passRules: [
-                v => !!v || 'Password is required',
-                v => (v && v.length >= 6) || 'Password must be equal or mode than 6 chars'
-            ]
-        }
-    },
-    methods: {
-        onSubmit () {
-            if (this.$refs.form.validate()) {
-                const user = {
-                    email: this.email,
-                    password: this.password
-                }
-                console.log(user)
-            }
-        }
+  data() {
+    return {
+      email: '',
+      password: '',
+      valid: false,
+      emailRules: [
+        v => !!v || 'E-mail is required',
+        v =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'E-mail must be valid'
+      ],
+      passRules: [
+        v => !!v || 'Password is required',
+        v =>
+          (v && v.length >= 6) || 'Password must be equal or mode than 6 chars'
+      ]
     }
+  },
+  methods: {
+    onSubmit() {
+      if (this.$refs.form.validate()) {
+        const user = {
+          email: this.email,
+          password: this.password
+        }
+        console.log(user)
+      }
+    }
+  }
 }
 </script>

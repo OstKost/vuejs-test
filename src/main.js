@@ -19,7 +19,7 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  created() {
+  created () {
     // Initialize Firebase
     var config = {
       apiKey: 'AIzaSyAg3wnp-nIu1tERg5NYXAL4ZWE_n7GdTC0',

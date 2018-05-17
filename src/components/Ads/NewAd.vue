@@ -53,7 +53,8 @@ export default {
           title: this.title,
           description: this.description,
           promo: this.promo,
-          imageSrc: 'https://www.sunhome.ru/i/wallpapers/200/planeta-zemlya-kartinka.960x540.jpg'
+          imageSrc:
+            'https://www.sunhome.ru/i/wallpapers/200/planeta-zemlya-kartinka.960x540.jpg'
         }
 
         this.$store.dispatch('createAd', ad)

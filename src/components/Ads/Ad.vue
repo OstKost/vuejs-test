@@ -6,10 +6,8 @@
                   <v-card-media                    
                     height="260px"
                     :src="ad.imageSrc"
-                  >
-                      
+                  >                     
                   </v-card-media>
-
                   <v-card-text>
                       <h1 class="text--primary">{{ad.title}}</h1>
                       <p>{{ad.description}}</p>

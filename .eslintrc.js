@@ -20,8 +20,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     // my rules
-    'no-tabs': 0,
-    indent: ['off', 'tab'],
+    // 'no-tabs': 0,
+    // indent: ['off', 'tab'],
     'space-before-function-paren': [
       'error',
       {

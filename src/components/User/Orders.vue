@@ -24,23 +24,23 @@
 
 <script>
 export default {
-    data () {
-        return {
-            items: [
-                {
-                    id: 1,
-                    name: 'Name',
-                    phone: '55555555555',
-                    adId: 2,
-                    done: false
-                }
-            ]
+  data() {
+    return {
+      items: [
+        {
+          id: 1,
+          name: 'Name',
+          phone: '55555555555',
+          adId: 2,
+          done: false
         }
-    },
-    methods: {
-        markDone (item) {
-            item.done = !item.done
-        }
+      ]
     }
+  },
+  methods: {
+    markDone(item) {
+      item.done = !item.done
+    }
+  }
 }
 </script>
