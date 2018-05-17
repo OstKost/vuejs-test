@@ -19,9 +19,9 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  created () {
+  created() {
     // Initialize Firebase
-    var config = {
+    const config = {
       apiKey: 'AIzaSyAg3wnp-nIu1tERg5NYXAL4ZWE_n7GdTC0',
       authDomain: 'wfs-vue-test.firebaseapp.com',
       databaseURL: 'https://wfs-vue-test.firebaseio.com',
@@ -30,5 +30,11 @@ new Vue({
       messagingSenderId: '815789642506'
     }
     firebase.initializeApp(config)
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoLoginUser', user)
+      }
+    })
   }
 })
