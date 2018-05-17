@@ -38,25 +38,27 @@
 
 <script>
 export default {
-    data () {
-        return {
-            title: '',
-            description: '',
-            promo: false,
-            valid: false
-        }
-    },
-    methods: {
-        createAd () {
-            if (this.$refs.form.validate()) {
-                const ad = {
-                    title: this.title,
-                    description: this.description,
-                    promo: this.promo
-                }
-                console.log(ad)
-            }
-        }
+  data() {
+    return {
+      title: '',
+      description: '',
+      promo: false,
+      valid: false
     }
+  },
+  methods: {
+    createAd() {
+      if (this.$refs.form.validate()) {
+        const ad = {
+          title: this.title,
+          description: this.description,
+          promo: this.promo,
+          imageSrc: 'https://www.sunhome.ru/i/wallpapers/200/planeta-zemlya-kartinka.960x540.jpg'
+        }
+
+        this.$store.dispatch('createAd', ad)
+      }
+    }
+  }
 }
 </script>

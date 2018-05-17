@@ -5,14 +5,14 @@
                 <v-card>
                   <v-card-media                    
                     height="260px"
-                    src="https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg"
+                    :src="ad.imageSrc"
                   >
                       
                   </v-card-media>
 
                   <v-card-text>
-                      <h1 class="text--primary">Lorem, ipsum dolor.</h1>
-                      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, cumque!</p>
+                      <h1 class="text--primary">{{ad.title}}</h1>
+                      <p>{{ad.description}}</p>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -27,8 +27,12 @@
 
 <script>
 export default {
-    data () {
-        return {}
+  props: ['id'],
+  computed: {
+    ad() {
+      const id = this.id
+      return this.$store.getters.adById(id)
     }
+  }
 }
 </script>
