@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       email: '',
       password: '',
@@ -49,23 +49,23 @@ export default {
     }
   },
   computed: {
-    loading () {
+    loading() {
       return this.$store.getters.loading
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit() {
       if (this.$refs.form.validate()) {
         const user = {
           email: this.email,
           password: this.password
         }
-        this.$store.dispatch('registerUser', user)
+        this.$store
+          .dispatch('registerUser', user)
           .then(() => {
             this.$router.push('/')
-          }).catch((err) => {
-            console.log(err)
           })
+          .catch(err => console.log(err))
       }
     }
   }
