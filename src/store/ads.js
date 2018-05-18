@@ -1,60 +1,106 @@
+import * as firebase from 'firebase'
+
+class Ad {
+  constructor(
+    title,
+    description,
+    ownerId,
+    promo = false,
+    imageSrc = '',
+    id = null
+  ) {
+    this.title = title
+    this.description = description
+    this.ownerId = ownerId
+    this.promo = promo
+    this.imageSrc = imageSrc
+    this.id = id
+  }
+}
+
 export default {
   state: {
-    ads: [
-      {
-        title: 'squirrel',
-        description: 'Img of squirrel',
-        promo: false,
-        imageSrc:
-          'https://vuetifyjs.com/static/doc-images/carousel/squirrel.jpg',
-        id: '1'
-      },
-      {
-        title: 'planet',
-        description: 'Img of planet',
-        promo: true,
-        imageSrc: 'https://vuetifyjs.com/static/doc-images/carousel/planet.jpg',
-        id: '2'
-      },
-      {
-        title: 'sky',
-        description: 'Img of sky',
-        promo: false,
-        imageSrc: 'https://vuetifyjs.com/static/doc-images/carousel/sky.jpg',
-        id: '3'
-      },
-      {
-        title: 'bird',
-        description: 'Img of bird',
-        promo: true,
-        imageSrc: 'https://vuetifyjs.com/static/doc-images/carousel/bird.jpg',
-        id: '4'
-      }
-    ]
+    ads: []
   },
   mutations: {
-    createAd (state, payload) {
+    createAd(state, payload) {
       state.ads.push(payload)
+    },
+    loadAds(state, payload) {
+      state.ads = payload
     }
   },
   actions: {
-    createAd ({ commit }, payload) {
-      payload.id = Math.floor(Math.random() * 100).toString()
+    async createAd({ commit, getters }, payload) {
+      commit('clearError')
+      commit('setLoading', true)
+      try {
+        const newAd = new Ad(
+          payload.title,
+          payload.description,
+          getters.user.id,
+          payload.promo,
+          payload.imageSrc
+        )
+        const ad = await firebase
+          .database()
+          .ref('ads')
+          .push(newAd)
+        commit('createAd', { ...newAd, id: ad.key })
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    },
+    async fetchAds({ commit }) {
+      commit('clearError')
+      commit('setLoading', true)
 
-      commit('createAd', payload)
+      const resultAds = []
+
+      try {
+        const fbVal = await firebase
+          .database()
+          .ref('ads')
+          .once('value')
+        const ads = fbVal.val()
+
+        Object.keys(ads).forEach(key => {
+          const ad = ads[key]
+          resultAds.push(
+            new Ad(
+              ad.title,
+              ad.description,
+              ad.ownerId,
+              ad.promo,
+              ad.imageSrc,
+              key
+            )
+          )
+        })
+
+        commit('loadAds', resultAds)
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
     }
   },
   getters: {
-    ads (state) {
+    ads(state) {
       return state.ads
     },
-    promoAds (state) {
+    promoAds(state) {
       return state.ads.filter(ad => ad.promo)
     },
-    myAds (state) {
+    myAds(state) {
       return state.ads
     },
-    adById (state) {
+    adById(state) {
       return adId => {
         return state.ads.find(ad => ad.id === adId)
       }

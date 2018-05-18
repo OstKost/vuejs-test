@@ -28,7 +28,12 @@
                 <v-layout row>
                     <v-flex xs12>
                         <v-spacer></v-spacer>
-                        <v-btn class="success" @click="createAd" :disabled="!valid">Create AD</v-btn>
+                        <v-btn
+                            class="success"
+                            @click="createAd"
+                            :disabled="!valid || loading"
+                            :loading="loading"
+                            >Create AD</v-btn>
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -46,6 +51,11 @@ export default {
       valid: false
     }
   },
+  computed: {
+    loading() {
+      return this.$store.getters.loading
+    }
+  },
   methods: {
     createAd() {
       if (this.$refs.form.validate()) {
@@ -57,7 +67,12 @@ export default {
             'https://www.sunhome.ru/i/wallpapers/200/planeta-zemlya-kartinka.960x540.jpg'
         }
 
-        this.$store.dispatch('createAd', ad)
+        this.$store
+          .dispatch('createAd', ad)
+          .then(() => {
+            this.$router.push('/list')
+          })
+          .catch(() => {})
       }
     }
   }
