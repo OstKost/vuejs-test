@@ -26,7 +26,8 @@
                         </v-card-title>
                         <v-card-actions>
                             <v-btn flat :to="'/ad/' + item.id">Open</v-btn>
-                            <v-btn raised class="primary">Buy</v-btn>
+                            <!-- <v-btn raised class="primary">Buy</v-btn> -->
+                            <app-buy-modal :ad="''"></app-buy-modal>
                         </v-card-actions>
                     </v-card>
                 </v-flex>

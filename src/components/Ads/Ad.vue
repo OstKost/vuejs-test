@@ -15,18 +15,21 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <!-- <v-btn color="warning" flat>Edit</v-btn> -->
-                    <addEditAdModel :ad="ad"></addEditAdModel>
-                    <v-btn color="success">Buy</v-btn>
+                    <addEditAdModel :ad="ad" v-if="isOwner"></addEditAdModel>
+                    <!-- <v-btn color="success">Buy</v-btn> -->
+                    <app-buy-modal :ad="ad"></app-buy-modal>
                   </v-card-actions>
                 </v-card>
-                <div v-else>
-                    <v-progress-circular
-                    :size="120"
-                    :width="6"
-                    indeterminate
-                    color="primary"
-                    ></v-progress-circular>
-                </div>
+                <v-layout row v-else>
+                  <v-flex xs12 text-sm-center>
+                      <v-progress-circular
+                          :size="120"
+                          :width="6"
+                          indeterminate
+                          color="primary"
+                      ></v-progress-circular>
+                  </v-flex>
+              </v-layout>
             </v-flex>
         </v-layout>
     </v-container>
@@ -44,6 +47,9 @@ export default {
     },
     loading() {
       return this.$store.getters.loading
+    },
+    isOwner() {
+      return this.ad.ownerId === this.$store.getters.user.id
     }
   },
   components: {
