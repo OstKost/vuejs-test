@@ -19,24 +19,23 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  created() {
-    // Initialize Firebase
-    const config = {
+  beforeCreate() {
+    firebase.initializeApp({
       apiKey: 'AIzaSyAg3wnp-nIu1tERg5NYXAL4ZWE_n7GdTC0',
       authDomain: 'wfs-vue-test.firebaseapp.com',
       databaseURL: 'https://wfs-vue-test.firebaseio.com',
       projectId: 'wfs-vue-test',
       storageBucket: 'wfs-vue-test.appspot.com',
       messagingSenderId: '815789642506'
-    }
-    firebase.initializeApp(config)
+    })
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch('autoLoginUser', user)
       }
     })
-
+  },
+  created() {
     this.$store.dispatch('fetchAds')
   }
 })

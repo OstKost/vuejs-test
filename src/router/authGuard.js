@@ -1,6 +1,7 @@
 import store from '../store'
 
-export default (to, from, next) => {
+export default function(to, from, next) {
+  // store undefined
   if (store.getters.user) {
     next()
   } else {

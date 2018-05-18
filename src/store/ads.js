@@ -34,20 +34,44 @@ export default {
     async createAd({ commit, getters }, payload) {
       commit('clearError')
       commit('setLoading', true)
+
+      const image = payload.image
+
       try {
         const newAd = new Ad(
           payload.title,
           payload.description,
           getters.user.id,
-          payload.promo,
-          payload.imageSrc
+          payload.promo
         )
+
         const ad = await firebase
           .database()
           .ref('ads')
           .push(newAd)
-        commit('createAd', { ...newAd, id: ad.key })
+        const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+
+        const fileData = await firebase
+          .storage()
+          .ref(`ads/${ad.key}${imageExt}`)
+          .put(image)
+
+        const imageSrc = await fileData.metadata.ref.getDownloadURL()
+
+        await firebase
+          .database()
+          .ref('ads')
+          .child(ad.key)
+          .update({
+            imageSrc
+          })
+
         commit('setLoading', false)
+        commit('createAd', {
+          ...newAd,
+          id: ad.key,
+          imageSrc
+        })
       } catch (error) {
         commit('setError', error.message)
         commit('setLoading', false)
@@ -61,11 +85,11 @@ export default {
       const resultAds = []
 
       try {
-        const fbVal = await firebase
+        const firebaseVal = await firebase
           .database()
           .ref('ads')
           .once('value')
-        const ads = fbVal.val()
+        const ads = firebaseVal.val()
 
         Object.keys(ads).forEach(key => {
           const ad = ads[key]
@@ -95,7 +119,9 @@ export default {
       return state.ads
     },
     promoAds(state) {
-      return state.ads.filter(ad => ad.promo)
+      return state.ads.filter(ad => {
+        return ad.promo
+      })
     },
     myAds(state) {
       return state.ads
