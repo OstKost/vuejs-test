@@ -59,7 +59,6 @@ export default {
     },
     async markOrder({ commit, getters }, payload) {
       commit('clearError')
-      console.log(payload)
       try {
         await firebase
           .database()
