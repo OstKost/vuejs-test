@@ -24,12 +24,11 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
-  store,
   components: { App },
+  store,
+  router,
   template: '<App/>',
-  beforeCreate() {},
-  created() {
+  beforeCreate() {
     firebase.initializeApp({
       apiKey: 'AIzaSyAg3wnp-nIu1tERg5NYXAL4ZWE_n7GdTC0',
       authDomain: 'wfs-vue-test.firebaseapp.com',
@@ -40,13 +39,16 @@ new Vue({
     })
 
     firebase.auth().onAuthStateChanged(user => {
-      console.log('onAuthStateChanged ')
       if (user) {
-        this.$store.dispatch('autoLoginUser', user)
+        this.$store.dispatch('autoLoginUser', user).then(() => {
+          // console.log(this.$route)
+          // this.$router.push('/')
+        })
         this.$store.dispatch('fetchOrders')
       }
     })
 
     this.$store.dispatch('fetchAds')
-  }
+  },
+  created() {}
 })
