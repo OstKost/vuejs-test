@@ -34,8 +34,8 @@ export default {
       }
     },
     async fetchOrders({ commit, getters }) {
-      commit('setLoading', true)
       commit('clearError')
+      commit('setLoading', true)
 
       const resultOrders = []
 
@@ -57,15 +57,16 @@ export default {
         commit('setError', error.message)
       }
     },
-    async markOrderDone({ commit, getters }, payload) {
+    async markOrder({ commit, getters }, payload) {
       commit('clearError')
+      console.log(payload)
       try {
         await firebase
           .database()
           .ref(`/users/${getters.user.id}/orders`)
-          .child(payload)
+          .child(payload.id)
           .update({
-            done: true
+            done: !payload.status
           })
       } catch (error) {
         commit('setError', error.message)

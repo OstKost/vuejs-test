@@ -45,7 +45,12 @@ export default {
   },
   methods: {
     markDone(item) {
-      item.done = !item.done
+      this.$store
+        .dispatch('markOrder', { id: item.id, status: item.done })
+        .then(() => {
+          item.done = !item.done
+        })
+        .catch(() => {})
     }
   },
   created() {

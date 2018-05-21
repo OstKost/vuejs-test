@@ -50,7 +50,7 @@ export default {
     }
   },
   computed: {
-    loading(s) {
+    loading() {
       return this.$store.getters.loading
     }
   },

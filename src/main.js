@@ -21,7 +21,8 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  beforeCreate() {
+  beforeCreate() {},
+  created() {
     firebase.initializeApp({
       apiKey: 'AIzaSyAg3wnp-nIu1tERg5NYXAL4ZWE_n7GdTC0',
       authDomain: 'wfs-vue-test.firebaseapp.com',
@@ -32,12 +33,13 @@ new Vue({
     })
 
     firebase.auth().onAuthStateChanged(user => {
+      console.log('onAuthStateChanged ')
       if (user) {
         this.$store.dispatch('autoLoginUser', user)
+        this.$store.dispatch('fetchOrders')
       }
     })
-  },
-  created() {
+
     this.$store.dispatch('fetchAds')
   }
 })
